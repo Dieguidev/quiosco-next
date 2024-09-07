@@ -1,5 +1,6 @@
 import { Category } from "@prisma/client";
 import Image from "next/image";
+import Link from "next/link";
 
 type CategoryIconProps = {
   category: Category;
@@ -12,8 +13,10 @@ export default function CategoryIcon({ category }: CategoryIconProps) {
     >
       <div className="w-16 h-16 relative">
         <Image fill src={`/icon_${category.slug}.svg`} alt={category.name} />
-      </div >
-      <p className="text-xl font-bold">{category.name}</p>
+      </div>
+      <Link className="text-xl font-bold" href={`/order/${category.slug}`}>
+        {category.name}
+      </Link>
     </div>
   );
 }
