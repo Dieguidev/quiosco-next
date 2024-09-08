@@ -9,6 +9,7 @@ type AddProductButtonProps = {
 
 export default function AddProductButton({ product }: AddProductButtonProps) {
   const addToOrder = useStore((state) => state.addToOrder);
+
   return (
     <button
       type="button"
