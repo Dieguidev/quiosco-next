@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 export default function OrderSummary() {
   const order = useStore((state) => state.order);
+  const clearOrder = useStore((state) => state.clearOrder);
 
   const total = useMemo(
     () => order.reduce((total, item) => total + item.quantity * item.price, 0),
@@ -19,14 +20,14 @@ export default function OrderSummary() {
     const data = {
       name: formData.get("name"),
       total,
-      order
+      order,
     };
 
     const result = OrderSchema.safeParse(data);
     if (!result.success) {
-      result.error.issues.forEach(issue =>{
-        toast.error(issue.message)
-      })
+      result.error.issues.forEach((issue) => {
+        toast.error(issue.message);
+      });
       return;
     }
 
@@ -38,6 +39,8 @@ export default function OrderSummary() {
       return;
     }
 
+    toast.success("Pedido realizado correctamente");
+    clearOrder();
   };
 
   return (
