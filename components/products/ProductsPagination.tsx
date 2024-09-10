@@ -8,6 +8,8 @@ export default function ProductsPagination({
   page,
   totalPages,
 }: ProductsPaginationProps) {
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
   return (
     <nav className="flex justify-center py-10">
       {page > 1 && (
@@ -18,6 +20,21 @@ export default function ProductsPagination({
           &laquo;
         </Link>
       )}
+
+      {pages.map((p) => (
+        <Link
+          key={p}
+          href={`/admin/products?page=${p}`}
+          className={`${
+            p === page
+              ? "bg-amber-400 text-white"
+              : "bg-white text-gray-900"
+          } px-4 py-2 text-sm ring-1 ring-inset ring-gray-300 focus:outline-offset-0`}
+        >
+          {p}
+        </Link>
+      ))}
+
       {page < totalPages && (
         <Link
           href={`/admin/products?page=${page + 1}`}
