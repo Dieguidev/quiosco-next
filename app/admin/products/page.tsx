@@ -1,3 +1,4 @@
+import ProductSearchFrom from "@/components/products/ProductSearchFrom";
 import ProductsPagination from "@/components/products/ProductsPagination";
 import ProductTable from "@/components/products/ProductTable";
 import Heading from "@/components/ui/Heading";
@@ -51,13 +52,15 @@ export default async function ProductsPage({
   return (
     <>
       <Heading>Administrar Productos </Heading>
-      <div>
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-5">
         <Link
           href={"/admin/products/new"}
           className="bg-amber-400 w-full lg:w-auto text-xl px-10 py-3 text-center font-bold cursor-pointer"
         >
           Crear Producto
         </Link>
+
+        <ProductSearchFrom />
       </div>
       <ProductTable products={productsData} />
       <ProductsPagination page={page} totalPages={totalPages} />
