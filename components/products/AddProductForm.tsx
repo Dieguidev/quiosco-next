@@ -1,6 +1,8 @@
 "use client";
 
+import { createProduct } from "@/actions/create-product-action";
 import { ProductSchema } from "@/src/schema";
+import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function AddProductForm({
@@ -11,17 +13,27 @@ export default function AddProductForm({
   const handleSubmit = async (formData: FormData) => {
     const data = {
       name: formData.get("name") as string,
-      price: Number(formData.get("price")),
-      categoryId: Number(formData.get("categoryId")),
+      price: formData.get("price"),
+      categoryId: formData.get("categoryId"),
+      image: formData.get("image"),
     };
     const result = ProductSchema.safeParse(data);
     if (!result.success) {
-      result.error.errors.forEach(error => {
-        toast.error(error.message)
-      })
+      result.error.errors.forEach((error) => {
+        toast.error(error.message);
+      });
+      return;
+    }
+    const response = await createProduct(result.data);
+    if (response?.errors) {
+      response.errors.forEach((error) => {
+        toast.error(error.message);
+      });
       return;
     }
 
+    toast.success("Producto registrado correctamente");
+    redirect("/admin/products");
   };
 
   return (
