@@ -4,22 +4,10 @@ import { prisma } from "@/src/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 async function getPendingOrders() {
-  const orders = await prisma.order.findMany({
-    where: {
-      status: false,
-    },
-    include: {
-      orderProducts: {
-        include: {
-          product: true,
-        },
-      },
-    },
-  });
-  return orders;
+
 }
 
-export default async function page() {
+export default async function OrdersPage() {
   const orders = await getPendingOrders();
 
   return (
