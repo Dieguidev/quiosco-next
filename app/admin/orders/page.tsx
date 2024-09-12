@@ -1,20 +1,29 @@
+"use client";
 import OrderCard from "@/components/order/OrderCard";
 import Heading from "@/components/ui/Heading";
-import { prisma } from "@/src/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { OrderWithProducts } from "@/src/types";
+import useSWR from "swr";
 
-async function getPendingOrders() {
+export default function OrdersPage() {
+  const url = "orders/api";
+  const fetcher = () =>
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => data);
 
-}
+  const { data, isLoading } = useSWR<OrderWithProducts[]>(url, fetcher, {
+    refreshInterval: 60000,
+    revalidateOnFocus: false,
+  });
 
-export default async function OrdersPage() {
-  const orders = await getPendingOrders();
+  if (isLoading) return <p>Cargando...</p>;
 
-  return (
-    <>
-      <Heading>Administrar Ordenes</Heading>
+  if (data)
+    return (
+      <>
+        <Heading>Administrar Ordenes</Heading>
 
-      <form
+        {/* <form
         action={async () => {
           "use server";
 
@@ -26,17 +35,17 @@ export default async function OrdersPage() {
           value="Actualizar Ordenes"
           className="bg-amber-400 w-full lg:w-auto text-xl px-10 py-3 text-center font-bold cursor-pointer"
         />
-      </form>
+      </form> */}
 
-      {orders.length ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5 mt-5">
-          {orders.map((order) => (
-            <OrderCard key={order.id} order={order} />
-          ))}
-        </div>
-      ) : (
-        <p className="text-center">No hay ordenes pendientes</p>
-      )}
-    </>
-  );
+        {data.length ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5 mt-5">
+            {data.map((order) => (
+              <OrderCard key={order.id} order={order} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center">No hay ordenes pendientes</p>
+        )}
+      </>
+    );
 }
