@@ -1,7 +1,7 @@
 import { prisma } from "@/src/lib/prisma";
 import ImageUpload from "./ImageUpload";
 import { Product } from "@prisma/client";
-import { formatCurrency } from "@/src/utils";
+
 
 async function getCategories() {
   return await prisma.category.findMany();
@@ -60,7 +60,7 @@ export default async function ProductForm({ product }: ProductFormProps) {
           ))}
         </select>
       </div>
-      <ImageUpload />
+      <ImageUpload image={product?.image}/>
     </>
   );
 }
