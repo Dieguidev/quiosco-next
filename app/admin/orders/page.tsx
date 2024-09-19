@@ -5,7 +5,7 @@ import { OrderWithProducts } from "@/src/types";
 import useSWR from "swr";
 
 export default function OrdersPage() {
-  const url = "orders/api";
+  const url = "admin/orders/api";
   const fetcher = () =>
     fetch(url)
       .then((res) => res.json())
