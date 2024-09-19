@@ -20,7 +20,6 @@ export default function EditProductForm({
       categoryId: formData.get("categoryId"),
       image: formData.get("image"),
     };
-    console.log(data);
     const result = ProductSchema.safeParse(data);
     if (!result.success) {
       result.error.errors.forEach((error) => {
