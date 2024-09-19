@@ -16,7 +16,7 @@ export default function ImageUpload({ image }: { image: string | undefined }) {
       onSuccess={(result, { widget }) => {
         if (result.event === "success") {
           widget.close();
-          // @ts-ignore
+          // @ts-expect-error: result.info might not be typed properly, but we expect it to contain secure_url
           setImageUrl(result.info?.secure_url);
         }
       }}
